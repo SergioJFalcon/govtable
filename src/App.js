@@ -1,25 +1,49 @@
+import { Component } from 'react';
+import axios from 'axios';
+
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { people } from './data';
+import Table from './components/Table';
+
+
+class App extends Component { 
+
+  state = {
+    list: people
+  }
+
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     list: []
+  //   };
+  // }
+
+  // componentDidMount() {
+  //   this.refreshList();
+  // }
+
+  // refreshList = () => {
+  //   axios.get('/api/govtables/').then((res) => this.setState({ list: res.data })).catch((err) => console.log(err));
+  // };
+
+  render(){
+    const {list} = this.state
+    // console.log('list of people from app: ', this.state.list)
+    const headers = ["Name", "Address", "Zip Code", "Email"];
+
+    return (
+      <div className="App">
+        <header className="App-header">
+          <h1 className='title'>GovReady Address Book</h1>
+          <h3 className='author'>by: Sergio Falcon</h3>
+          <Table headers={headers} list={list} />
+        </header>
+      </div>
+    );
+  }
 }
 
 export default App;
