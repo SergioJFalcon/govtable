@@ -136,8 +136,7 @@ class DisplayTable extends Component {
                 <Table striped bordered hover>
                     <thead >
                         <tr>
-                            {headers.map((header, index) => {
-                                return (
+                            {headers.map((header, index) => (
                                     <th key={index}>
                                         <div 
                                             className="header-button"
@@ -147,7 +146,7 @@ class DisplayTable extends Component {
                                         </div>
                                     </th>
                                 )
-                            })}
+                            )}
                             <th colSpan="2">
                                 <Button 
                                     color="btn btn-primary"
@@ -161,8 +160,7 @@ class DisplayTable extends Component {
                     </thead>
                     
                     <tbody>
-                        {list ? (list.map((person) => {
-                            return(
+                        {list ? (list.map((person) => (
                             <tr key={person.id}>
                                 <td>{person.Name}</td>
                                 <td>{person.Address}</td>
@@ -185,8 +183,9 @@ class DisplayTable extends Component {
                                     </button>
                                 </td>
                             </tr>
-                        )})) 
-                    : (<Loading />)}
+                        ))) 
+                    : (<Loading />)
+                }
                     </tbody>
                 </Table>
                 {this.state.modal ? 
