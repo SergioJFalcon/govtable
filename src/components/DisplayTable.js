@@ -22,14 +22,42 @@ class DisplayTable extends Component {
                 Address: '',
                 ZipCode: '',
                 Email: ''
-            }
+            },
+            wait: false
         }
     }
 
     componentDidMount(){
-        this.refreshList();
+        
+        this.timer = setInterval(() => {
+            this.setState({ wait: !this.state.wait })
+            this.refreshList();
+        }, 3000)
     }
 
+    componentWillUnmount() {
+        clearInterval(this.timer)
+    }
+
+    // fetchData = () => {
+    //     return axios.get('/api/govtables/').then((response) => {
+    //         return response.data;
+    //     });
+    // };
+
+    
+    // refreshList = async() => {
+    //     try { 
+    //         const status = await this.fetchData()
+    //         //fetching data from api
+    //         //axios.get('/api/govtables/').then((res) => this.setState({ list: res.data })).catch((err) => console.log(err));
+            
+    //         this.setState(() => ({ listStatus: status }))
+    //     } catch(error) {
+    //         console.log('error: ', error)
+    //     }
+    // };
+    
     refreshList = () => {
         axios.get('/api/govtables/').then((res) => this.setState({ list: res.data })).catch((err) => console.log(err));
     };
@@ -101,6 +129,7 @@ class DisplayTable extends Component {
 
     render() {
         const { headers, list } = this.state;
+
         return(
             <div className="table-container">
                 
@@ -132,7 +161,8 @@ class DisplayTable extends Component {
                     </thead>
                     
                     <tbody>
-                        {typeof list !== "undefined" ? (list.map((person) => (
+                        {list ? (list.map((person) => {
+                            return(
                             <tr key={person.id}>
                                 <td>{person.Name}</td>
                                 <td>{person.Address}</td>
@@ -155,7 +185,7 @@ class DisplayTable extends Component {
                                     </button>
                                 </td>
                             </tr>
-                        ))) 
+                        )})) 
                     : (<Loading />)}
                     </tbody>
                 </Table>
