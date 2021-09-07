@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Table, Button } from 'reactstrap';
+import _ from 'lodash';
 
 import TableModal from './TableModal';
 
@@ -110,7 +111,7 @@ class DisplayTable extends Component {
     };
 
     render() {
-        const { headers, list, ready } = this.state;
+        const { headers, list } = this.state;
         
         return(
             <div className="table-container">
@@ -141,13 +142,13 @@ class DisplayTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                         {Object.keys(list).map((person) => {
+                         {_.map(list, (person) => {
                              return (
-                                <tr key={list[person].id}>
-                                    <td>{list[person].Name}</td>
-                                    <td>{list[person].Address}</td>
-                                    <td>{list[person].ZipCode}</td>
-                                    <td>{list[person].Email}</td>
+                                <tr key={person.id}>
+                                    <td>{person.Name}</td>
+                                    <td>{person.Address}</td>
+                                    <td>{person.ZipCode}</td>
+                                    <td>{person.Email}</td>
                                     <td>
                                         <button 
                                             className="btn btn-secondary mr-2"
