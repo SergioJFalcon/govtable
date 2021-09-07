@@ -110,12 +110,21 @@ class DisplayTable extends Component {
         this.setState({ activePerson: entry, modal: !this.state.modal });
     };
 
+    runLodash = (list) => {
+        console.log('runLodash')
+        _.map(list, (person) => {(
+                console.log('person name: ', person.Name)
+            )
+        })
+    }
     render() {
         const { headers, list } = this.state;
+        console.log('list: ', list);
+        // console.log(typeof list)
         
         return(
             <div className="table-container">
-                
+            {this.runLodash(list)}
                 <Table striped bordered hover>
                     <thead >
                         <tr>
@@ -142,9 +151,11 @@ class DisplayTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                         {_.map(list, (person) => {
+                    
+                         {_.map(this.state.list, person => {
                              return (
-                                <tr key={person.id}>
+                                (console.log('person: ', person.id, person.Name, person.Address, person.ZipCode, person.Email)) &&
+                                (<tr key={person.id}>
                                     <td>{person.Name}</td>
                                     <td>{person.Address}</td>
                                     <td>{person.ZipCode}</td>
@@ -165,7 +176,8 @@ class DisplayTable extends Component {
                                             Delete
                                         </button>
                                     </td>
-                                </tr>
+                                </tr>)
+                                
                              )
                          })}
                     </tbody>
