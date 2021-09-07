@@ -151,7 +151,7 @@ class DisplayTable extends Component {
                                         className="btn btn-danger"
                                         onClick={() => this.deleteEntry(person)}
                                     >
-                                            Delete
+                                        Delete
                                     </button>
                                 </td>
                             </tr>
