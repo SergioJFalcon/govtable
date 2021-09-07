@@ -23,41 +23,23 @@ class DisplayTable extends Component {
                 ZipCode: '',
                 Email: ''
             },
-            wait: false
+            ready: false
         }
     }
 
     componentDidMount(){
         
-        this.timer = setInterval(() => {
-            this.setState({ wait: !this.state.wait })
-            this.refreshList();
-        }, 3000)
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.timer)
-    }
-
-    // fetchData = () => {
-    //     return axios.get('/api/govtables/').then((response) => {
-    //         return response.data;
-    //     });
-    // };
-
-    
-    // refreshList = async() => {
-    //     try { 
-    //         const status = await this.fetchData()
-    //         //fetching data from api
-    //         //axios.get('/api/govtables/').then((res) => this.setState({ list: res.data })).catch((err) => console.log(err));
+        // this.timer = setInterval(() => {
             
-    //         this.setState(() => ({ listStatus: status }))
-    //     } catch(error) {
-    //         console.log('error: ', error)
-    //     }
-    // };
-    
+            this.refreshList();
+            // this.setState({ ready: !this.state.wait })
+        // }, 3000)
+    }
+
+    // componentWillUnmount() {
+    //     clearInterval(this.timer)
+    // }
+
     refreshList = () => {
         axios.get('/api/govtables/').then((res) => this.setState({ list: res.data })).catch((err) => console.log(err));
     };
@@ -128,8 +110,8 @@ class DisplayTable extends Component {
     };
 
     render() {
-        const { headers, list } = this.state;
-
+        const { headers, list, ready } = this.state;
+        console.log(this.state.ready);
         return(
             <div className="table-container">
                 
@@ -158,9 +140,8 @@ class DisplayTable extends Component {
                             </th>
                         </tr>
                     </thead>
-                    
                     <tbody>
-                        {list ? (list.map((person) => (
+                         {list.map((person) => (
                             <tr key={person.id}>
                                 <td>{person.Name}</td>
                                 <td>{person.Address}</td>
@@ -183,9 +164,7 @@ class DisplayTable extends Component {
                                     </button>
                                 </td>
                             </tr>
-                        ))) 
-                    : (<Loading />)
-                }
+                        ))}
                     </tbody>
                 </Table>
                 {this.state.modal ? 
