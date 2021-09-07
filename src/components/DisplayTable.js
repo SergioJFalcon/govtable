@@ -5,6 +5,7 @@ import { Table, Button } from 'reactstrap';
 import TableModal from './TableModal';
 
 import './DisplayTable.css'
+import Loading from './Loading';
 
 class DisplayTable extends Component {
     constructor(props){
@@ -100,7 +101,6 @@ class DisplayTable extends Component {
 
     render() {
         const { headers, list } = this.state;
-
         return(
             <div className="table-container">
                 
@@ -132,7 +132,7 @@ class DisplayTable extends Component {
                     </thead>
                     
                     <tbody>
-                        {list ? (list.map((person) => (
+                        {typeof list !== "undefined" ? (list.map((person) => (
                             <tr key={person.id}>
                                 <td>{person.Name}</td>
                                 <td>{person.Address}</td>
@@ -156,7 +156,7 @@ class DisplayTable extends Component {
                                 </td>
                             </tr>
                         ))) 
-                    : <p>Loading</p>}
+                    : (<Loading />)}
                     </tbody>
                 </Table>
                 {this.state.modal ? 
