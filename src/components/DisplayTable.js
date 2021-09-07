@@ -111,7 +111,7 @@ class DisplayTable extends Component {
 
     render() {
         const { headers, list, ready } = this.state;
-        console.log(this.state.ready);
+        
         return(
             <div className="table-container">
                 
@@ -141,30 +141,32 @@ class DisplayTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                         {list.map((person) => (
-                            <tr key={person.id}>
-                                <td>{person.Name}</td>
-                                <td>{person.Address}</td>
-                                <td>{person.ZipCode}</td>
-                                <td>{person.Email}</td>
-                                <td>
-                                    <button 
-                                        className="btn btn-secondary mr-2"
-                                        onClick={() => this.editEntry(person)}
-                                    >
-                                        Edit
-                                    </button>
-                                </td>
-                                <td>
-                                    <button 
-                                        className="btn btn-danger"
-                                        onClick={() => this.deleteEntry(person)}
-                                    >
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
+                         {Object.keys(list).map((person) => {
+                             return (
+                                <tr key={list[person].id}>
+                                    <td>{list[person].Name}</td>
+                                    <td>{list[person].Address}</td>
+                                    <td>{list[person].ZipCode}</td>
+                                    <td>{list[person].Email}</td>
+                                    <td>
+                                        <button 
+                                            className="btn btn-secondary mr-2"
+                                            onClick={() => this.editEntry(person)}
+                                        >
+                                            Edit
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button 
+                                            className="btn btn-danger"
+                                            onClick={() => this.deleteEntry(person)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                             )
+                         })}
                     </tbody>
                 </Table>
                 {this.state.modal ? 
