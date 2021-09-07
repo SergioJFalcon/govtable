@@ -23,8 +23,16 @@ class App extends Component {
     this.refreshList();
   }
 
-  refreshList = () => {
-    axios.get('/api/govtables/').then((res) => this.setState({ list: res.data })).catch((err) => console.log(err));
+  
+  refreshList = async () => {
+
+    try {
+      //fetching data from api
+      await axios.get('/api/govtables/').then((res) => this.setState({ list: res.data })).catch((err) => console.log(err));
+      
+    } catch(error) {
+      console.log('error: ', error)
+    }
   };
 
   render(){
@@ -33,15 +41,16 @@ class App extends Component {
   
     return (
       <div className="App">
-        <header className="App-header">
+        <div className="App-body">
           <h1 className='title'>GovReady Address Book</h1>
           <h3 className='author'>by: Sergio Falcon</h3>
           {
-            !list.length ? <ImportJsonFile status={'false'} />: null
+            !list.length ? (<ImportJsonFile />) : <span></span>
           }
           
-          <DisplayTable headers={headers} list={list} />
-        </header>
+          {list.length ? <DisplayTable headers={headers} list={list} /> : <h1>Sorry, its Loading</h1>}
+
+        </div>
         
       </div>
     );

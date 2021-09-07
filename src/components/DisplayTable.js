@@ -132,7 +132,7 @@ class DisplayTable extends Component {
                     </thead>
                     
                     <tbody>
-                        {list.map((person) => (
+                        {list ? (list.map((person) => (
                             <tr key={person.id}>
                                 <td>{person.Name}</td>
                                 <td>{person.Address}</td>
@@ -155,7 +155,8 @@ class DisplayTable extends Component {
                                     </button>
                                 </td>
                             </tr>
-                        ))}
+                        ))) 
+                    : <p>Loading</p>}
                     </tbody>
                 </Table>
                 {this.state.modal ? 
