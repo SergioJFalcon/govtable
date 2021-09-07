@@ -4,8 +4,8 @@ import axios from 'axios';
 import './App.css';
 
 import DisplayTable from './components/DisplayTable';
-// import TableModal from './components/TableModal';
 import ImportJsonFile from './components/ImportJsonFile';
+import Loading from './components/Loading';
 // import DeleteAllEntries from './components/DeleteAllEntries';
 
 // import { people } from './data'; //draw objects from local json file
@@ -16,6 +16,7 @@ class App extends Component {
     super(props);
     this.state = {
       list: [],
+      listStatus: null
     };
   }
 
@@ -23,20 +24,27 @@ class App extends Component {
     this.refreshList();
   }
 
-  
-  refreshList = async () => {
+  fetchData = () => {
+    return axios.get('/api/govtables/').then((response) => {
+      return response.data;
+    });
+  };
 
-    try {
+ 
+  refreshList = async() => {
+    try { 
+      const listStatus = await this.fetchData()
       //fetching data from api
-      await axios.get('/api/govtables/').then((res) => this.setState({ list: res.data })).catch((err) => console.log(err));
-      
+      //axios.get('/api/govtables/').then((res) => this.setState({ list: res.data })).catch((err) => console.log(err));
+
+      this.setState(() => ({listStatus}))
     } catch(error) {
       console.log('error: ', error)
     }
   };
 
   render(){
-    const {list} = this.state
+    const { list, listStatus } = this.state
     const headers = ["Name", "Address", "ZipCode", "Email"];
   
     return (
@@ -45,11 +53,10 @@ class App extends Component {
           <h1 className='title'>GovReady Address Book</h1>
           <h3 className='author'>by: Sergio Falcon</h3>
           {
-            !list.length ? (<ImportJsonFile />) : <span></span>
+            !list.length ? null : (<ImportJsonFile />)
           }
           
-          {list.length ? <DisplayTable headers={headers} list={list} /> : <h1>Sorry, its Loading</h1>}
-
+          {!listStatus ? <Loading /> : <DisplayTable headers={headers} list={list} />}
         </div>
         
       </div>
