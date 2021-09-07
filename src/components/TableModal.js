@@ -1,88 +1,101 @@
-import { render } from '@testing-library/react';
-import React, { useState } from 'react'
-import { Form, FormGroup, Modal, ModalBody, ModalFooter } from 'react-bootstrap';
-import ModalHeader from 'react-bootstrap/esm/ModalHeader';
+import React, { Component } from 'react'
+import {
+    Button,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Form,
+    FormGroup,
+    Input,
+    Label,
+  } from "reactstrap";
 
-const TableModal = ({person, toggle, onSave}) => {
 
-    const [activePerson, setActivePerson] = useState(person);
-    const [toggle, setToggle] = useState(toggle);
-    const [onSave, setOnSave] = useState(onSave)
+class TableModal extends Component {
 
-    // const { toggle, onSave } = this.props;
+    constructor(props){
+        super(props);
+        this.state = {
+            activePerson: this.props.activePerson
+        }
+    }
 
     handleChange = (e) => {
         let { name, value } = e.target;
 
-        const activePerson = { ...setActivePerson, [name]: value};
-
-        setActivePerson({activePerson});
+        const activePerson = {...this.state.activePerson, [name]: value};
+        this.setState({activePerson});
     };
+    
+    render() {
+        const { toggle, onSave } = this.props;
 
-    return(
-        <Modal className='modalContainer' isOpen={true} toggle={toggle}>
-            <ModalHeader 
-                className='header' 
-                toggle={toggle}
-            >
-                Edit {activePerson.Name}'s Information
-            </ModalHeader>
-            <ModalBody className='body'>
-                <Form>
-                    <FormGroup>
-                        <Label for='person-name'>Name</Label>
-                        <input 
-                            id='person-name'
-                            type='text' 
-                            name='Name' 
-                            value={activePerson.Name} 
-                            onChange={this.handleChange} 
-                            placeholder='Enter full name'
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for='person-address'>Address</Label>
-                        <input 
-                            id='person-address'
-                            type='text' 
-                            name='Name' 
-                            value={activePerson.Address} 
-                            onChange={this.handleChange} 
-                            placeholder='Enter address'
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for='person-zipcode'>Zip Code</Label>
-                        <input 
-                            id='person-zipcode'
-                            type='text' 
-                            name='Name' 
-                            value={activePerson.['Zip Code']} 
-                            onChange={this.handleChange} 
-                            placeholder='Enter zip code'
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for='person-email'>Email</Label>
-                        <input 
-                            id='person-email'
-                            type='text' 
-                            name='Name' 
-                            value={activePerson.Email} 
-                            onChange={this.handleChange} 
-                            placeholder='Enter email'
-                        />
-                    </FormGroup>
-                </Form>
-            </ModalBody>
-            <ModalFooter>
-                <button
-                    color="success"
-                    onClick={() => onSave(activePerson)}
-                >
-                    Save information
-                </button>
-            </ModalFooter>
-        </Modal>
-    )
+        return(
+            <Modal isOpen={true} toggle={toggle}>
+                <ModalHeader toggle={toggle}>
+                    Edit Information
+                </ModalHeader>
+                <ModalBody>
+                    <Form>
+                        <FormGroup>
+                            <Label for='person-name'>Name</Label>
+                            <Input 
+                                id='person-name'
+                                type='text' 
+                                name='Name' 
+                                value={this.state.activePerson.Name} 
+                                onChange={this.handleChange} 
+                                placeholder='Enter full name'
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for='person-address'>Address</Label>
+                            <Input 
+                                id='person-address'
+                                type='text' 
+                                name='Address' 
+                                value={this.state.activePerson.Address} 
+                                onChange={this.handleChange} 
+                                placeholder='Enter address'
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label for='person-zipcode'>Zip Code</label>
+                            <Input 
+                                id='person-zipcode'
+                                type='text' 
+                                name='ZipCode' 
+                                value={this.state.activePerson.ZipCode} 
+                                onChange={this.handleChange} 
+                                placeholder='Enter zip code'
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label for='person-email'>Email</label>
+                            <Input 
+                                id='person-email'
+                                type='text' 
+                                name='Email' 
+                                value={this.state.activePerson.Email} 
+                                onChange={this.handleChange} 
+                                placeholder='Enter email'
+                            />
+                        </FormGroup>
+                    </Form>
+                </ModalBody>
+                <ModalFooter>
+                    <Button
+                        color="btn btn-success"
+                        onClick={() => onSave(this.state.activePerson)}
+                    >
+                        Save information
+                    </Button>
+                </ModalFooter>
+            </Modal>
+        )
+    }
+    
 }
+
+export default TableModal;

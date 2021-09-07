@@ -1,0 +1,33 @@
+.table-container{
+    background-color: white;
+    height: 80vh;
+    overflow-y: scroll;
+}
+.header-button{
+    height: 100%;
+    width: 100%;
+    color: white;
+}
+/* thead {
+    table-layout: fixed;
+} */
+thead {
+    background-color: black;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    /* border-color: black; */
+
+}
+.header{
+    position: sticky;
+    top: 0;
+    border-color: black;
+    box-shadow: inset 1px -1px #000;
+}
+.tbody-container{
+    display: block;
+    height: 80vh;
+    overflow-y: scroll;
+    background-color: white;
+}
