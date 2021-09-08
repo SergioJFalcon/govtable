@@ -1,22 +1,24 @@
+.container{
+    background-color: #282c34;
+    padding-top: 1rem;
+}
 .table-container{
     background-color: white;
     height: 80vh;
     overflow-y: scroll;
+    padding-top: 1rem;
 }
 .header-button{
     height: 100%;
     width: 100%;
     color: white;
 }
-/* thead {
-    table-layout: fixed;
-} */
+
 thead {
     background-color: black;
     position: sticky;
     top: 0;
     z-index: 1;
-    /* border-color: black; */
 
 }
 .header{

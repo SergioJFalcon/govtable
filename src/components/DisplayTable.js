@@ -6,7 +6,6 @@ import _ from 'lodash';
 import TableModal from './TableModal';
 
 import './DisplayTable.css'
-import Loading from './Loading';
 
 class DisplayTable extends Component {
     constructor(props){
@@ -29,20 +28,13 @@ class DisplayTable extends Component {
     }
 
     componentDidMount(){
-        
-        // this.timer = setInterval(() => {
-            
-            this.refreshList();
-            // this.setState({ ready: !this.state.wait })
-        // }, 3000)
+
+        this.refreshList();
     }
 
-    // componentWillUnmount() {
-    //     clearInterval(this.timer)
-    // }
-
     refreshList = () => {
-        axios.get('/api/govtables/').then((res) => this.setState({ list: res.data })).catch((err) => console.log(err));
+        const status = axios.get('/api/govtables/').then((res) => this.setState({ list: res.data })).catch((err) => console.log(err));
+        return status;
     };
 
     toggle = () => {
@@ -110,21 +102,11 @@ class DisplayTable extends Component {
         this.setState({ activePerson: entry, modal: !this.state.modal });
     };
 
-    runLodash = (list) => {
-        console.log('runLodash')
-        _.map(list, (person) => {(
-                console.log('person name: ', person.Name)
-            )
-        })
-    }
     render() {
         const { headers, list } = this.state;
-        console.log('list: ', list);
-        // console.log(typeof list)
-        
+
         return(
             <div className="table-container">
-            {this.runLodash(list)}
                 <Table striped bordered hover>
                     <thead >
                         <tr>
@@ -152,10 +134,8 @@ class DisplayTable extends Component {
                     </thead>
                     <tbody>
                     
-                         {_.map(this.state.list, person => {
-                             return (
-                                (console.log('person: ', person.id, person.Name, person.Address, person.ZipCode, person.Email)) &&
-                                (<tr key={person.id}>
+                         {_.map(list, (person) => (
+                             <tr key={person.id}>
                                     <td>{person.Name}</td>
                                     <td>{person.Address}</td>
                                     <td>{person.ZipCode}</td>
@@ -176,10 +156,8 @@ class DisplayTable extends Component {
                                             Delete
                                         </button>
                                     </td>
-                                </tr>)
-                                
-                             )
-                         })}
+                            </tr>
+                         ))}
                     </tbody>
                 </Table>
                 {this.state.modal ? 

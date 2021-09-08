@@ -1,14 +1,17 @@
 import { Component } from 'react';
 import axios from 'axios';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import './App.css';
 
 import DisplayTable from './components/DisplayTable';
-import ImportJsonFile from './components/ImportJsonFile';
 import Loading from './components/Loading';
+import Header from './components/Header';
+import HomePage from './components/HomePage';
+import LocalTable from './components/LocalTable';
 // import DeleteAllEntries from './components/DeleteAllEntries';
 
-// import { people } from './data'; //draw objects from local json file
+// import { localData } from './data'; //draw objects from local json file
 
 class App extends Component { 
 
@@ -45,7 +48,7 @@ class App extends Component {
       //fetching data from api
       //axios.get('/api/govtables/').then((res) => this.setState({ list: res.data })).catch((err) => console.log(err));
      
-      this.setState(() => ({ listStatus: status }))
+      this.setState(({ listStatus: status }))
     } catch(error) {
       console.log('error: ', error)
     }
@@ -55,18 +58,22 @@ class App extends Component {
     const { list, listStatus } = this.state
     const headers = ["Name", "Address", "ZipCode", "Email"];
     return (
-      <div className="App">
-        <div className="App-body">
-          <h1 className='title'>GovReady Address Book</h1>
-          <h3 className='author'>by: Sergio Falcon</h3>
-          {
-            list.length > 0 ? null : (<ImportJsonFile />)
-          }
-          
-          {listStatus ? <DisplayTable headers={headers} list={list} /> : <Loading />}
+      <BrowserRouter>
+        <Header />
+        <div className='container'>
+          <Switch>
+            <Route exact path="/">
+              <HomePage />
+            </Route>
+            <Route path="/localtable">
+              <LocalTable />
+            </Route>
+            <Route path="/resttable">
+              {listStatus ? <DisplayTable headers={headers} list={list} /> : <Loading />}
+            </Route>
+          </Switch>
         </div>
-        
-      </div>
+      </BrowserRouter>
     );
   }
 }
